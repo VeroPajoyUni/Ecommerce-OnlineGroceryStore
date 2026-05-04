@@ -29,7 +29,7 @@ class AuthController extends Controller {
             $this->redirect('product', 'index');
         }
 
-        $this->render('client/LoginView');
+        $this->render('auth/login');
     }
 
     // ══════════════════════════════════════════════════
@@ -83,7 +83,7 @@ class AuthController extends Controller {
             $this->redirect('product', 'index');
         }
 
-        $this->render('client/RegisterView');
+        $this->render('auth/register');
     }
 
     // ══════════════════════════════════════════════════
@@ -127,6 +127,6 @@ class AuthController extends Controller {
     // ══════════════════════════════════════════════════
     public function logout(){
         destroySession();
-        $this->redirect('Auth', 'login');
+        $this->redirect('home', 'index');
     }
 }

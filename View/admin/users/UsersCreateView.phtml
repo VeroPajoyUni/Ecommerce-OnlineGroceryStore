@@ -1,0 +1,66 @@
+<?php
+/**
+ * Vista Admin — Crear Usuario
+ * Ruta: View/admin/users/usersCreateView.phtml
+ */
+?>
+
+<div class="page-enter">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-plus-circle"></i> Nuevo Usuario</h2>
+        <a href="<?= BASE_URL ?>index.php?controller=user&action=index"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
+    </div>
+
+    <div class="card admin-form-card">
+    <div class="card-body">
+        <form method="POST"
+              action="<?= BASE_URL ?>index.php?controller=user&action=store">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Nombre *</label>
+                    <input type="text" name="nombre" class="form-control" required
+                           placeholder="Ej: Juan Pérez">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Email *</label>
+                    <input type="email" name="email" class="form-control" required
+                           placeholder="Ej: juan@example.com">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Teléfono</label>
+                    <input type="tel" name="telefono" class="form-control"
+                           placeholder="Ej: 3001234567">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Contraseña *</label>
+                    <input type="password" name="password" class="form-control" required
+                           placeholder="Mínimo 8 caracteres">
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-bold">Rol *</label>
+                    <select name="rol_id" class="form-select" required>
+                        <option value="">— Seleccionar rol —</option>
+                        <?php foreach($roles as $role): ?>
+                            <option value="<?= $role['id'] ?>">
+                                <?= htmlspecialchars($role['nombre']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex gap-2 justify-content-end">
+                <a href="<?= BASE_URL ?>index.php?controller=user&action=index"
+                   class="btn btn-outline-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Guardar
+                </button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>

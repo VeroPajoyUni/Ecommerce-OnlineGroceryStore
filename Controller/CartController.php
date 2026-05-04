@@ -42,7 +42,7 @@ class CartController extends Controller {
             }
         }
 
-        $this->render('client/ClientCart', compact('productosCarrito', 'subtotal'));
+        $this->render('cart/index', compact('productosCarrito', 'subtotal'), 'main');
     }
 
     // ══════════════════════════════════════════════════

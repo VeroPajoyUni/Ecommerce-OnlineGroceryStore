@@ -41,6 +41,9 @@ class Router {
         $this->add('auth:registerPost', 'AuthController', 'registerPost');
         $this->add('auth:logout',       'AuthController', 'logout',       auth: true);
 
+        // ── HOME ───────────────────────────────────────
+        $this->add('home:index',        'HomeController',    'index');
+
         // ── PRODUCTOS (cliente) ────────────────────────
         $this->add('product:index',     'ProductController', 'index');
         $this->add('product:show',      'ProductController', 'show');
@@ -87,6 +90,7 @@ class Router {
         $this->add('user:edit',         'UserController', 'edit',          admin: true);
         $this->add('user:update',       'UserController', 'update',        admin: true);
         $this->add('user:delete',       'UserController', 'delete',        admin: true);
+        $this->add('user:profile',      'UserController', 'profile',       auth: true);
 
         // ── ROLES ──────────────────────────────────────
         $this->add('role:index',        'RoleController', 'index',         admin: true);
@@ -100,6 +104,14 @@ class Router {
         $this->add('cart:index',        'CartController', 'index',         auth: true);
         $this->add('cart:add',          'CartController', 'add',           auth: true);
         $this->add('cart:delete',       'CartController', 'delete',        auth: true);
+
+        // ── DIRECCIONES ────────────────────────────────
+        $this->add('address:index',     'AddressController', 'index',      auth: true);
+        $this->add('address:create',    'AddressController', 'create',     auth: true);
+        $this->add('address:store',     'AddressController', 'store',      auth: true);
+        $this->add('address:edit',      'AddressController', 'edit',       auth: true);
+        $this->add('address:update',    'AddressController', 'update',     auth: true);
+        $this->add('address:delete',    'AddressController', 'delete',     auth: true);
 
         // ── ÓRDENES ────────────────────────────────────
         $this->add('order:index',       'OrderController', 'index',        auth: true);
@@ -153,7 +165,7 @@ class Router {
         // Leer y sanitizar parámetros de la URL
         $controller = isset($_GET['controller'])
             ? strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $_GET['controller']))
-            : 'product';
+            : 'home';
 
         $action = isset($_GET['action'])
             ? preg_replace('/[^a-zA-Z0-9]/', '', $_GET['action'])

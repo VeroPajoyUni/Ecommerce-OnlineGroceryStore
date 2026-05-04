@@ -20,7 +20,7 @@ class Database {
 
         $this->host = $_ENV['DB_HOST'] ?? 'localhost';
         $this->port = $_ENV['DB_PORT'] ?? '3306';
-        $this->db   = $_ENV['DB_NAME'] ?? 'tienda_galindez';
+        $this->db   = $_ENV['DB_NAME'] ?? 'ecommerce_online_grocery_store';
         $this->user = $_ENV['DB_USER'] ?? 'root';
         $this->pass = $_ENV['DB_PASS'] ?? '';
     }

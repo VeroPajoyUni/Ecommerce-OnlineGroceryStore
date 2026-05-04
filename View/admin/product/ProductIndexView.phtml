@@ -1,0 +1,83 @@
+<?php
+/**
+ * Vista Admin — Listado Productos
+ * Ruta: View/admin/product/ProductIndexView.phtml
+ */
+
+?>
+
+<div class="page-enter">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-box-seam"></i> Productos</h2>
+        <a href="<?= BASE_URL ?>index.php?controller=product&action=create"
+           class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Nuevo Producto
+        </a>
+    </div>
+
+    <?php if(empty($productos)): ?>
+        <div class="text-center py-5">
+            <i class="bi bi-inbox fs-1 text-muted"></i>
+            <p class="text-muted mt-2">No hay productos registrados.</p>
+        </div>
+    <?php else: ?>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle admin-table">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th><th>Imagen</th><th>Nombre</th>
+                    <th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($productos as $p): ?>
+                <tr>
+                    <td><?= $p['id'] ?></td>
+                    <td>
+                        <img src="<?= !empty($p['imagen'])
+                            ? BASE_URL . $p['imagen']
+                            : BASE_URL . 'img/default.jpg' ?>"
+                             class="admin-thumb rounded">
+                    </td>
+                    <td>
+                        <strong><?= htmlspecialchars($p['nombre']) ?></strong><br>
+                        <small class="text-muted">
+                            <?= htmlspecialchars(mb_substr($p['descripcion'] ?? '', 0, 50)) ?>...
+                        </small>
+                    </td>
+                    <td>
+                        <span class="badge bg-secondary">
+                            <?= htmlspecialchars($p['categoria'] ?? '—') ?>
+                        </span>
+                    </td>
+                    <td class="fw-bold">
+                        $<?= number_format($p['precio'], 0, ',', '.') ?>
+                    </td>
+                    <td>
+                        <span class="badge <?= $p['stock'] <= 5 ? 'bg-danger' : 'bg-success' ?>">
+                            <?= $p['stock'] ?>
+                        </span>
+                    </td>
+                    <td>
+                        <a href="<?= BASE_URL ?>index.php?controller=product&action=edit&id=<?= $p['id'] ?>"
+                           class="btn btn-sm btn-outline-warning me-1">
+                            <i class="bi bi-pencil">Editar</i>
+                        </a>
+                        <form method="POST"
+                              action="<?= BASE_URL ?>index.php?controller=product&action=delete"
+                              class="d-inline"
+                              onsubmit="return confirm('¿Eliminar este producto?')">
+                            <input type="hidden" name="id" value="<?= $p['id'] ?>">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash">Eliminar</i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php endif; ?>
+</div>

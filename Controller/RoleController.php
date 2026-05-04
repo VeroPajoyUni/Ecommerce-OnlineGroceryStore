@@ -20,11 +20,11 @@ class RoleController extends Controller {
 
     public function index(){
         $roles = $this->model->all();
-        $this->render('admin/roles/index', compact('roles'));
+        $this->render('admin/roles/RoleIndexView', compact('roles'), 'admin');
     }
 
     public function create(){
-        $this->render('admin/roles/create');
+        $this->render('admin/roles/RoleCreateView', [], 'admin');
     }
 
     public function store(){
@@ -44,7 +44,7 @@ class RoleController extends Controller {
             $this->redirect('role', 'index');
         }
 
-        $this->render('admin/roles/edit', compact('role'));
+        $this->render('admin/roles/RoleEditView', compact('role'), 'admin');
     }
 
     public function update(){

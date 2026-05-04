@@ -1,0 +1,61 @@
+# ══════════════════════════════════════════════════
+# AnimaMarket — Configuración Apache
+# Redirige todas las peticiones al front controller
+# public/index.php manteniendo los parámetros GET
+#
+# REQUISITO: mod_rewrite debe estar activo en Apache
+# En XAMPP: httpd.conf → LoadModule rewrite_module
+# ══════════════════════════════════════════════════
+
+# Activar motor de reescritura
+Options -Indexes
+RewriteEngine On
+
+# ── ARCHIVOS Y CARPETAS EXISTENTES ─────────────────
+# Si la petición es a un archivo o carpeta real
+# (css, js, img, etc.) se sirve directamente
+# sin pasar por index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ── REDIRIGIR TODO LO DEMÁS A index.php ────────────
+# Cualquier URL que no sea archivo/carpeta real
+# pasa al front controller conservando query string
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# ── SEGURIDAD ───────────────────────────────────────
+# Bloquear acceso directo a archivos sensibles
+<FilesMatch "\.(env|sql|md|gitignore|json|lock)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear acceso a carpetas de configuración
+<FilesMatch "^(Database|Config|Model|Controller|Helpers|Routes)">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Deshabilitar listado de directorios
+Options -Indexes
+
+# ── HEADERS DE SEGURIDAD ────────────────────────────
+<IfModule mod_headers.c>
+    # Evitar clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # Evitar sniffing de tipo MIME
+    Header always set X-Content-Type-Options "nosniff"
+    # Activar protección XSS en navegadores antiguos
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# ── CACHÉ DE ASSETS ESTÁTICOS ───────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css              "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+    ExpiresByType image/jpeg            "access plus 1 month"
+    ExpiresByType image/png             "access plus 1 month"
+    ExpiresByType image/webp            "access plus 1 month"
+    ExpiresByType image/avif            "access plus 1 month"
+</IfModule>

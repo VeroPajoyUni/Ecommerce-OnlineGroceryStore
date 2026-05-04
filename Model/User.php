@@ -21,6 +21,35 @@ class User extends Model {
     public $password;
     public $rol_id;
 
+    /**
+     * Retorna usuarios incluyendo nombre del rol.
+     */
+    public function all(){
+        $query = "SELECT u.*, r.nombre AS rol
+                  FROM users u
+                  LEFT JOIN roles r ON r.id = u.rol_id";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    /**
+     * Busca un usuario por ID incluyendo nombre del rol.
+     */
+    public function find($id){
+        $query = "SELECT u.*, r.nombre AS rol
+                  FROM users u
+                  LEFT JOIN roles r ON r.id = u.rol_id
+                  WHERE u.id = :id
+                  LIMIT 1";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
     // ══════════════════════════════════════════════════
     // CREAR USUARIO
     // Usado en AuthController::registerPost() y UserController::store()

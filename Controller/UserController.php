@@ -21,13 +21,13 @@ class UserController extends Controller {
 
     public function index(){
         $users = $this->model->all();
-        $this->render('admin/users/usersView', compact('users'));
+        $this->render('admin/users/UsersIndexView', compact('users'), 'admin');
     }
 
     public function create(){
         $roleModel = new Role($this->db);
         $roles     = $roleModel->all();
-        $this->render('admin/users/usersCreateView', compact('roles'));
+        $this->render('admin/users/UsersCreateView', compact('roles'), 'admin');
     }
 
     public function store(){
@@ -48,7 +48,7 @@ class UserController extends Controller {
             $this->redirect('user', 'index');
         }
 
-        $this->render('admin/users/usersEditView', compact('user'));
+        $this->render('admin/users/UsersEditView', compact('user'), 'admin');
     }
 
     public function update(){
@@ -64,5 +64,16 @@ class UserController extends Controller {
         $id = $_GET['id'] ?? null;
         $this->model->delete($id);
         $this->redirect('user', 'index');
+    }
+
+    public function profile(){
+        $usuario = currentUser();
+        
+        if(!$usuario){
+            $this->redirect('auth', 'login');
+        }
+
+        $user = $this->model->find($usuario['id']);
+        $this->render('user/profile', compact('user'), 'main');
     }
 }

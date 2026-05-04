@@ -38,10 +38,10 @@ define('APP_ENV', $_ENV['APP_ENV'] ?? 'development');
 define('ROOT_PATH', dirname(__DIR__));
 
 // Carpeta de imágenes subidas por el admin
-define('STORAGE_PATH', ROOT_PATH . '/Storage/products/');
+define('STORAGE_PATH', ROOT_PATH . '/public/img/products/');
 
 // Ruta pública de imágenes (para usar en src de <img>)
-define('STORAGE_URL', BASE_URL . 'Storage/products/');
+define('STORAGE_URL', BASE_URL . 'img/products/');
 
 // ══════════════════════════════════════════════════
 // 5. CONFIGURACIÓN DE SESIÓN

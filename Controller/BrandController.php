@@ -24,11 +24,11 @@ class BrandController extends Controller {
 
     public function index(){
         $brands = $this->model->all();
-        $this->render('admin/brand/BrandIndexView', compact('brands'));
+        $this->render('admin/brand/BrandIndexView', compact('brands'), 'admin');
     }
 
     public function create(){
-        $this->render('admin/brand/BrandCreateView');
+        $this->render('admin/brand/BrandCreateView', [], 'admin');
     }
 
     public function store(){
@@ -48,7 +48,7 @@ class BrandController extends Controller {
             $this->redirect('brand', 'index');
         }
 
-        $this->render('admin/brand/BrandEditView', compact('brand'));
+        $this->render('admin/brand/BrandEditView', compact('brand'), 'admin');
     }
 
     public function update(){
@@ -70,24 +70,24 @@ class BrandController extends Controller {
     // ── CLIENTE ────────────────────────────────────────
 
     /**
-     * Muestra productos filtrados por nombre de marca.
-     * Ruta: index.php?controller=brand&action=show&nombre=Coca-Cola
+     * Muestra productos filtrados por marca.
+     * Ruta: index.php?controller=brand&action=show&id=1
      */
     public function show(){
-        $nombre       = $_GET['nombre'] ?? '';
+        $id           = $_GET['id'] ?? null;
+        $brand        = $this->model->find($id);
         $productModel = new Product($this->db);
         $imageModel   = new ProductImage($this->db);
-        $productos    = $productModel->getByBrand($nombre);
-        $categorias   = $productModel->getCategorias();
+        $productos    = $productModel->getByBrand($brand['nombre'] ?? '');
 
+        // Adjuntar imágenes a cada producto
         foreach($productos as &$p){
             $imagenes    = $imageModel->getByProduct($p['id']);
-            $p['imagen'] = $imagenes[0]['url'] ?? null;
+            $p['imagenes'] = $imagenes;
         }
 
-        $this->render('client/ClientBrands',
-            compact('productos', 'categorias', 'nombre')
-        );
+        $marcas = $productModel->getMarcas();
+        $this->render('products/index', compact('productos', 'marcas'), 'main');
     }
 
     /**
@@ -96,7 +96,7 @@ class BrandController extends Controller {
      */
     public function shop(){
         $brands     = $this->model->all();
-        $categorias = (new Product($this->db))->getCategorias();
-        $this->render('client/ClientBrands', compact('brands', 'categorias'));
+        $marcas = (new Product($this->db))->getMarcas();
+        $this->render('brands/index', compact('brands', 'marcas'), 'main');
     }
 }

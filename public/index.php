@@ -7,18 +7,26 @@
  * Flujo: Navegador → public/index.php → Router → Controller → Model → View
  */
 
-// ══════════════════════════════════════════════════
-// CONFIGURACIÓN Y ARRANQUE
-// El orden importa: .env → constantes → sesión → helpers
-// ══════════════════════════════════════════════════
+// 1. CARGAR VARIABLES DE ENTORNO (ANTES DE TODO)
+require_once __DIR__ . '/../Config/env.php';
+loadEnv(__DIR__ . '/../.env');
+
+// 2. CONFIGURACIONES BASE
 require_once __DIR__ . '/../Config/Database.php';
 require_once __DIR__ . '/../Config/App.php';
 require_once __DIR__ . '/../Config/Session.php';
+
+// 3. INICIAR SESIÓN
 session_start();
+
+// 4. HELPERS
 require_once __DIR__ . '/../Helpers/Auth.php';
 
-// Errores visibles solo en desarrollo
-if(APP_ENV === 'development'){
+
+// ══════════════════════════════════════════════════
+// MANEJO DE ERRORES
+// ══════════════════════════════════════════════════
+if (APP_ENV === 'development') {
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 } else {
@@ -26,22 +34,25 @@ if(APP_ENV === 'development'){
     error_reporting(0);
 }
 
+
 // ══════════════════════════════════════════════════
 // AUTOLOADER
 // Busca clases en Controller/ y Model/ automáticamente
 // ══════════════════════════════════════════════════
-spl_autoload_register(function($class){
+spl_autoload_register(function ($class) {
     $paths = [
         __DIR__ . '/../Controller/' . $class . '.php',
-        __DIR__ . '/../Model/'      . $class . '.php',
+        __DIR__ . '/../Model/' . $class . '.php',
     ];
-    foreach($paths as $path){
-        if(file_exists($path)){
+
+    foreach ($paths as $path) {
+        if (file_exists($path)) {
             require_once $path;
             return;
         }
     }
 });
+
 
 // ══════════════════════════════════════════════════
 // DESPACHO VÍA ROUTER

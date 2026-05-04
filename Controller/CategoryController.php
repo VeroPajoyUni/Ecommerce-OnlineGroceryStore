@@ -24,11 +24,11 @@ class CategoryController extends Controller {
 
     public function index(){
         $categories = $this->model->all();
-        $this->render('admin/category/CategoryIndexView', compact('categories'));
+        $this->render('admin/category/CategoryIndexView', compact('categories'), 'admin');
     }
 
     public function create(){
-        $this->render('admin/category/CategoryCreateView');
+        $this->render('admin/category/CategoryCreateView', [], 'admin');
     }
 
     public function store(){
@@ -48,7 +48,7 @@ class CategoryController extends Controller {
             $this->redirect('category', 'index');
         }
 
-        $this->render('admin/category/CategoryEditView', compact('category'));
+        $this->render('admin/category/CategoryEditView', compact('category'), 'admin');
     }
 
     public function update(){
@@ -89,12 +89,10 @@ class CategoryController extends Controller {
         // Adjuntar imágenes a cada producto
         foreach($productos as &$p){
             $imagenes    = $imageModel->getByProduct($p['id']);
-            $p['imagen'] = $imagenes[0]['url'] ?? null;
+            $p['imagenes'] = $imagenes;
         }
 
         $categorias = $productModel->getCategorias();
-        $this->render('client/ClientCategories',
-            compact('category', 'productos', 'categorias')
-        );
+        $this->render('products/index', compact('productos', 'categorias'), 'main');
     }
 }

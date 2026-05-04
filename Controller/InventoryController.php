@@ -23,14 +23,15 @@ class InventoryController extends Controller {
         $inventory  = $this->model->all();
         $lowStock   = $this->model->getLowStock();
         $this->render('admin/inventory/InventoryIndexView',
-            compact('inventory', 'lowStock')
+            compact('inventory', 'lowStock'),
+            'admin'
         );
     }
 
     public function create(){
         $productModel = new Product($this->db);
         $products     = $productModel->all();
-        $this->render('admin/inventory/InventoryCreateView', compact('products'));
+        $this->render('admin/inventory/InventoryCreateView', compact('products'), 'admin');
     }
 
     public function store(){
@@ -49,7 +50,7 @@ class InventoryController extends Controller {
             $this->redirect('inventory', 'index');
         }
 
-        $this->render('admin/inventory/InventoryEditView', compact('inventory'));
+        $this->render('admin/inventory/InventoryEditView', compact('inventory'), 'admin');
     }
 
     public function update(){

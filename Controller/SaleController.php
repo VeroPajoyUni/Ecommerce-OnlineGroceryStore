@@ -26,7 +26,7 @@ class SaleController extends Controller {
     // ══════════════════════════════════════════════════
     public function index(){
         $sales = $this->orderModel->getAll();
-        $this->render('admin/sales/SaleIndexView', compact('sales'));
+        $this->render('admin/sales/SaleIndexView', compact('sales'), 'admin');
     }
 
     // ══════════════════════════════════════════════════
@@ -45,8 +45,6 @@ class SaleController extends Controller {
         $items = $this->orderModel->getItemsByOrder($id);
         $user  = $this->userModel->find($order['user_id']);
 
-        $this->render('admin/sales/SaleShowView',
-            compact('order', 'items', 'user')
-        );
+        $this->render('admin/sales/SaleShowView', compact('order', 'items', 'user'), 'admin');
     }
 }

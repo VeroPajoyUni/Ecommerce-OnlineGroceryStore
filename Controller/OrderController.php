@@ -28,7 +28,7 @@ class OrderController extends Controller {
     public function index(){
         $user_id = $_SESSION['user_id'];
         $orders  = $this->model->getByUser($user_id);
-        $this->render('orders/history', compact('orders'));
+        $this->render('orders/history', compact('orders'), 'main');
     }
 
     // ══════════════════════════════════════════════════

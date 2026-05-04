@@ -27,7 +27,7 @@ class PaymentController extends Controller {
     // ══════════════════════════════════════════════════
     public function index(){
         $payments = $this->model->getAll();
-        $this->render('admin/payments/PaymentIndexView', compact('payments'));
+        $this->render('admin/payments/PaymentIndexView', compact('payments'), 'admin');
     }
 
     // ══════════════════════════════════════════════════
@@ -51,9 +51,7 @@ class PaymentController extends Controller {
         // Cargar los items de esa orden
         $cartItems = $this->orderModel->getItemsByOrder($order['id']);
 
-        $this->render('client/checkout/CheckoutView',
-            compact('user', 'order', 'cartItems')
-        );
+        $this->render('orders/checkout', compact('user', 'order', 'cartItems'));
     }
 
     // ══════════════════════════════════════════════════

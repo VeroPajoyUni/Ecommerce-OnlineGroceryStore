@@ -29,16 +29,18 @@ class SearchController extends Controller {
 
         $q = trim($_GET['q'] ?? '');
 
-        // Si la búsqueda está vacía, retornar array vacío
-        $productos  = !empty($q) ? $this->model->search($q) : [];
+        // Si no hay término, mostrar todo el catálogo
+        $productos  = !empty($q) ? $this->model->search($q) : $this->model->all();
         $categorias = $this->model->getCategorias();
 
-        // Adjuntar imagen principal a cada resultado
+        // Adjuntar imágenes a cada resultado
         foreach($productos as &$p){
             $imagenes    = $this->imageModel->getByProduct($p['id']);
-            $p['imagen'] = $imagenes[0]['url'] ?? null;
+            $p['imagenes'] = $imagenes;
         }
 
-        $this->render('client/ClientSearch', compact('productos', 'categorias', 'q'));
+        unset($p);
+
+        $this->render('products/index', compact('productos', 'categorias'), 'main');
     }
 }

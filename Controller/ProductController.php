@@ -31,7 +31,7 @@ class ProductController extends Controller {
         // Adjuntar imágenes a cada producto para las tarjetas
         $this->attachImages($productos);
 
-        $this->render('client/ClientIndex', compact('productos', 'categorias'));
+        $this->render('products/index', compact('productos', 'categorias'), 'main');
     }
 
     // ══════════════════════════════════════════════════
@@ -51,7 +51,7 @@ class ProductController extends Controller {
         $imagenes = $this->imageModel->getByProduct($id);
         $product['fotos'] = array_column($imagenes, 'url');
 
-        $this->render('client/ClientDetailProduct', compact('product'));
+        $this->render('products/detail', compact('product'), 'main');
     }
 
     // ══════════════════════════════════════════════════
@@ -60,7 +60,7 @@ class ProductController extends Controller {
     public function indexAdmin(){
         $productos = $this->model->all();
         $this->attachImages($productos);
-        $this->render('admin/product/ProductIndexView', compact('productos'));
+        $this->render('admin/product/ProductIndexView', compact('productos'), 'admin');
     }
 
     // ══════════════════════════════════════════════════
@@ -70,7 +70,7 @@ class ProductController extends Controller {
         $categorias  = $this->model->getCategorias();
         $marcas      = $this->model->getMarcas();
         $proveedores = $this->model->getProveedores();
-        $this->render('admin/product/ProductCreateView', compact('categorias', 'marcas', 'proveedores'));
+        $this->render('admin/product/ProductCreateView', compact('categorias', 'marcas', 'proveedores'), 'admin');
     }
 
     // ══════════════════════════════════════════════════
@@ -122,9 +122,7 @@ class ProductController extends Controller {
         $marcas      = $this->model->getMarcas();
         $proveedores = $this->model->getProveedores();
 
-        $this->render('admin/product/ProductEditView',
-            compact('product', 'categorias', 'marcas', 'proveedores')
-        );
+        $this->render('admin/product/ProductEditView', compact('product', 'categorias', 'marcas', 'proveedores'), 'admin');
     }
 
     // ══════════════════════════════════════════════════

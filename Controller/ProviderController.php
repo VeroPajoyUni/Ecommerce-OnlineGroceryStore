@@ -20,11 +20,11 @@ class ProviderController extends Controller {
 
     public function index(){
         $providers = $this->model->all();
-        $this->render('admin/providers/ProviderIndexView', compact('providers'));
+        $this->render('admin/providers/ProviderIndexView', compact('providers'), 'admin');
     }
 
     public function create(){
-        $this->render('admin/providers/ProviderCreateView');
+        $this->render('admin/providers/ProviderCreateView', [], 'admin');
     }
 
     public function store(){

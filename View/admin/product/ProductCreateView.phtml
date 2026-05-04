@@ -1,0 +1,120 @@
+<?php
+/**
+ * Vista Admin — Crear Producto
+ * Ruta: View/admin/product/ProductCreateView.phtml
+ */
+?>
+
+<div class="page-enter">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-plus-circle"></i> Nuevo Producto</h2>
+        <a href="<?= BASE_URL ?>index.php?controller=product&action=indexAdmin"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
+    </div>
+
+    <div class="card admin-form-card">
+    <div class="card-body">
+    <form method="POST"
+          action="<?= BASE_URL ?>index.php?controller=product&action=store"
+          enctype="multipart/form-data">
+
+        <div class="row g-3">
+
+            <div class="col-md-8">
+                <label class="form-label fw-bold">Nombre *</label>
+                <input type="text" name="nombre" class="form-control" required
+                       placeholder="Ej: Arroz Diana 500g">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Precio venta *</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" name="precio" class="form-control"
+                           required min="0" step="0.01">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Precio costo</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" name="precio_costo" class="form-control"
+                           min="0" step="0.01" value="0">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Stock</label>
+                <input type="number" name="stock" class="form-control"
+                       min="0" value="0">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Categoría *</label>
+                <select name="categoria_id" class="form-select" required>
+                    <option value="">— Seleccionar —</option>
+                    <?php foreach($categorias as $cat): ?>
+                        <option value="<?= $cat['id'] ?>">
+                            <?= htmlspecialchars($cat['nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Marca</label>
+                <select name="marca_id" class="form-select">
+                    <option value="">— Seleccionar —</option>
+                    <?php foreach($marcas as $marca): ?>
+                        <option value="<?= $marca['id'] ?>">
+                            <?= htmlspecialchars($marca['nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Proveedor</label>
+                <select name="proveedor_id" class="form-select">
+                    <option value="">— Seleccionar —</option>
+                    <?php foreach($proveedores as $prov): ?>
+                        <option value="<?= $prov['id'] ?>">
+                            <?= htmlspecialchars($prov['nombre']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-bold">Descripción</label>
+                <textarea name="descripcion" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-bold">
+                    Imágenes <small class="text-muted fw-normal">(máx 5)</small>
+                </label>
+                <input type="file" name="imagenes[]" class="form-control"
+                       accept="image/*" multiple>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="d-flex gap-2 justify-content-end">
+            <a href="<?= BASE_URL ?>index.php?controller=product&action=indexAdmin"
+               class="btn btn-outline-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-save"></i> Guardar producto
+            </button>
+        </div>
+
+    </form>
+    </div>
+    </div>
+</div>

@@ -21,11 +21,11 @@ class AddressController extends Controller {
     public function index(){
         $user_id   = $_SESSION['user_id'];
         $addresses = $this->model->getByUser($user_id);
-        $this->render('client/addresses/AddressIndexView', compact('addresses'));
+        $this->render('user/addresses', compact('addresses'), 'main');
     }
 
     public function create(){
-        $this->render('client/addresses/AddressCreateView');
+        $this->render('user/addresses/create', [], 'main');
     }
 
     public function store(){
@@ -46,7 +46,7 @@ class AddressController extends Controller {
             $this->redirect('address', 'index');
         }
 
-        $this->render('client/addresses/AddressEditView', compact('address'));
+        $this->render('user/addresses/edit', compact('address'), 'main');
     }
 
     public function update(){

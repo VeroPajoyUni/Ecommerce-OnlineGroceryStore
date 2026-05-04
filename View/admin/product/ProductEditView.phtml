@@ -1,0 +1,113 @@
+<?php
+/**
+ * Vista Admin — Editar Producto
+ * Ruta: View/admin/product/ProductEditView.phtml
+ */
+?>
+
+<div class="page-enter">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-pencil"></i> Editar Producto</h2>
+        <a href="<?= BASE_URL ?>index.php?controller=product&action=indexAdmin"
+           class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
+    </div>
+
+    <div class="card admin-form-card">
+    <div class="card-body">
+    <form method="POST"
+          action="<?= BASE_URL ?>index.php?controller=product&action=update"
+          enctype="multipart/form-data">
+
+        <input type="hidden" name="id" value="<?= $product['id'] ?>">
+
+        <div class="row g-3">
+
+            <div class="col-md-8">
+                <label class="form-label fw-bold">Nombre *</label>
+                <input type="text" name="nombre" class="form-control" required
+                       value="<?= htmlspecialchars($product['nombre']) ?>">
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Precio venta *</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" name="precio" class="form-control"
+                           required step="0.01"
+                           value="<?= $product['precio'] ?>">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Precio costo</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" name="precio_costo" class="form-control"
+                           step="0.01"
+                           value="<?= $product['precio_costo'] ?? 0 ?>">
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold">Stock</label>
+                <input type="number" name="stock" class="form-control"
+                       min="0" value="<?= $product['stock'] ?>">
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-bold">Descripción</label>
+                <textarea name="descripcion" class="form-control"
+                          rows="3"><?= htmlspecialchars($product['descripcion'] ?? '') ?></textarea>
+            </div>
+
+            <!-- Imágenes actuales -->
+            <?php if(!empty($product['fotos'])): ?>
+            <div class="col-12">
+                <label class="form-label fw-bold">Imágenes actuales</label>
+                <div class="d-flex flex-wrap gap-3">
+                    <?php foreach($product['fotos'] as $foto): ?>
+                    <div class="admin-img-preview">
+                        <img src="<?= BASE_URL . htmlspecialchars($foto) ?>"
+                             class="rounded border"
+                             style="width:100px;height:100px;object-fit:cover;">
+                        <div class="form-check mt-1">
+                            <input class="form-check-input" type="checkbox"
+                                   name="delete_images[]"
+                                   value="<?= htmlspecialchars($foto) ?>"
+                                   id="del_<?= md5($foto) ?>">
+                            <label class="form-check-label text-danger small"
+                                   for="del_<?= md5($foto) ?>">
+                                Eliminar
+                            </label>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+
+            <div class="col-12">
+                <label class="form-label fw-bold">Agregar nuevas imágenes</label>
+                <input type="file" name="imagenes[]" class="form-control"
+                       accept="image/*" multiple>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="d-flex gap-2 justify-content-end">
+            <a href="<?= BASE_URL ?>index.php?controller=product&action=indexAdmin"
+               class="btn btn-outline-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-warning">
+                <i class="bi bi-save"></i> Guardar cambios
+            </button>
+        </div>
+
+    </form>
+    </div>
+    </div>
+</div>
